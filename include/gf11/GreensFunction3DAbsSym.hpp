@@ -328,7 +328,7 @@ template<typename realT>
 typename GreensFunction3DAbsSym<realT>::real_type
 GreensFunction3DAbsSym<realT>::ellipticTheta4Zero(const real_type q)
 {
-    if (fabs(q) > 1.0)
+    if (std::abs(q) > 1.0)
     {
         throw_exception<std::invalid_argument>(
             "GreensFunction3DAbsSym::ellipticTheta4Zero: "
