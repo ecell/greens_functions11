@@ -44,5 +44,25 @@ inline realT W(const realT a, const realT b) noexcept
     return std::exp(- a * a) * expxsq_erfc(a + b);
 }
 
+template<typename realT>
+realT ip_theta_free(const realT theta, const realT r, const realT r0, const realT t, const realT D) noexcept
+{
+    constexpr realT pi_cubed = boost::math::constants::pi_cubed<realT>();
+
+    const realT Dt  = D  * t;
+    const realT Dt2 = Dt + Dt;
+    const realT rr0 = r  * r0;
+
+    const realT rr0_over_2Dt(rr0 / Dt2);
+    const realT rsqr0sq_over_4Dt((r * r + r0 * r0) / (Dt2 + Dt2));
+
+    const realT term1 = boost::math::expm1(rr0_over_2Dt - rsqr0sq_over_4Dt);
+    const realT term2 = boost::math::expm1(rr0_over_2Dt * std::cos(theta) - rsqr0sq_over_4Dt);
+
+    const realT den(4.0 * std::sqrt(pi_cubed * Dt) * rr0);
+
+    return (term1 - term2) / den;
+}
+
 } // gf11
 #endif //GF11_MATHEMATICAL_UTILITY_H
