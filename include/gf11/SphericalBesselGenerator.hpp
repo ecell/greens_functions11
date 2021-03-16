@@ -25,9 +25,9 @@ struct Table
 // no singularity in bessel_j for z>=0.
 
 template<typename realT>
-inline constexpr realT minz_j(const std::size_t n) noexcept {return 0.0;}
+inline constexpr realT minz_j(const std::size_t /*n*/) noexcept {return 0.0;}
 template<typename realT>
-inline constexpr realT minz_y(const std::size_t n) noexcept {return 0.5;}
+inline constexpr realT minz_y(const std::size_t /*n*/) noexcept {return 0.5;}
 
 template<typename realT>
 inline realT maxz_j(const std::size_t n) noexcept
