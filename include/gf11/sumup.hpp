@@ -3,6 +3,7 @@
 #include "type_traits.hpp"
 #include <gsl/gsl_sum.h> // series acceleration method
 #include <vector>
+#include <memory>
 #include <cstdint>
 #include <cmath>
 
