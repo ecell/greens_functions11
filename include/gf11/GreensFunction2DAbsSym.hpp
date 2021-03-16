@@ -17,11 +17,10 @@
 namespace gf11
 {
 
-template<typename realT>
 class GreensFunction2DAbsSym
 {
   public:
-    using real_type = realT;
+    using real_type = double;
 
     GreensFunction2DAbsSym(const real_type D, const real_type a) noexcept
         : D_(D), a_(a)
@@ -45,23 +44,15 @@ class GreensFunction2DAbsSym
 
     // H = 4.0: ~3e-5, 4.26: ~1e-6, 5.0: ~3e-7, 5.2: ~1e-7,
     //     5.6: ~1e-8, 6.0: ~1e-9
-    static constexpr real_type CUTOFF   = 1e-10;
-    static constexpr real_type CUTOFF_H = 6.0;
+    static constexpr real_type CUTOFF()   noexcept {return 1e-10;}
+    static constexpr real_type CUTOFF_H() noexcept {return 6.0;}
 
     real_type D_;
     real_type a_;
 };
 
-template<typename realT>
-constexpr typename GreensFunction2DAbsSym<realT>::real_type
-GreensFunction2DAbsSym<realT>::CUTOFF;
-template<typename realT>
-constexpr typename GreensFunction2DAbsSym<realT>::real_type
-GreensFunction2DAbsSym<realT>::CUTOFF_H;
-
-template<typename realT>
-typename GreensFunction2DAbsSym<realT>::real_type
-GreensFunction2DAbsSym<realT>::p_survival(const real_type t) const
+inline GreensFunction2DAbsSym::real_type
+GreensFunction2DAbsSym::p_survival(const real_type t) const
 {
     constexpr int N_max = 100;
 
@@ -76,7 +67,7 @@ GreensFunction2DAbsSym<realT>::p_survival(const real_type t) const
         const real_type An     = aAn * ra;
         const real_type term   = std::exp(-Dt * An * An) / (An * J1_aAn);
         sum += term;
-        if(std::abs(term / sum) < CUTOFF)
+        if(std::abs(term / sum) < CUTOFF())
         {
             break;
         }
@@ -84,9 +75,8 @@ GreensFunction2DAbsSym<realT>::p_survival(const real_type t) const
     return 2 * ra * sum;
 }
 
-template<typename realT>
-typename GreensFunction2DAbsSym<realT>::real_type
-GreensFunction2DAbsSym<realT>::p_int_r(const real_type r, const real_type t) const
+inline GreensFunction2DAbsSym::real_type
+GreensFunction2DAbsSym::p_int_r(const real_type r, const real_type t) const
 {
     constexpr int N_max = 10000;
     const real_type Dt = this->D_ * t;
@@ -103,7 +93,7 @@ GreensFunction2DAbsSym<realT>::p_int_r(const real_type r, const real_type t) con
         const real_type term = (std::exp(-Dt * An * An) * r * J1_rAn) /
                                (An * J1_aAn * J1_aAn);
         sum += term;
-        if(std::abs(term / sum) <= CUTOFF)
+        if(std::abs(term / sum) <= CUTOFF())
         {
             break;
         }
@@ -111,9 +101,8 @@ GreensFunction2DAbsSym<realT>::p_int_r(const real_type r, const real_type t) con
     return 2.0 * ra * ra * sum;
 }
 
-template<typename realT>
-typename GreensFunction2DAbsSym<realT>::real_type
-GreensFunction2DAbsSym<realT>::drawTime(const real_type rnd) const
+inline GreensFunction2DAbsSym::real_type
+GreensFunction2DAbsSym::drawTime(const real_type rnd) const
 {
     if(!(0.0 <= rnd && rnd < 1.0))
     {
@@ -165,7 +154,7 @@ GreensFunction2DAbsSym<realT>::drawTime(const real_type rnd) const
             low *= 0.1;
             value = p_surv_eq(low);
             if(std::abs(low) <= t_guess * 1e-6 ||
-               std::abs(value - low_v) < CUTOFF)
+               std::abs(value - low_v) < CUTOFF())
             {
                 // couldn't adjust lower limit. it's almost zero.
                 // XXX: here, low_v contains the previous value of `value`.
@@ -182,9 +171,8 @@ GreensFunction2DAbsSym<realT>::drawTime(const real_type rnd) const
                      "GreensFunction2DRadAbs::drawTime");
 }
 
-template<typename realT>
-typename GreensFunction2DAbsSym<realT>::real_type
-GreensFunction2DAbsSym<realT>::drawR(const real_type rnd, const real_type t) const
+inline GreensFunction2DAbsSym::real_type
+GreensFunction2DAbsSym::drawR(const real_type rnd, const real_type t) const
 {
     if(!(0.0 <= rnd && rnd < 1.0))
     {
@@ -214,13 +202,13 @@ GreensFunction2DAbsSym<realT>::drawR(const real_type rnd, const real_type t) con
                      "GreensFunction2DAbsSym::drawR");
 }
 
-template<typename charT, typename traitsT, typename realT>
+template<typename charT, typename traitsT>
 std::basic_ostream<charT, traitsT>&
-operator<<(std::basic_ostream<charT, traitsT>& os,
-           const GreensFunction2DAbsSym<realT>& gf)
+operator<<(std::basic_ostream<charT, traitsT>& os, const GreensFunction2DAbsSym& gf)
 {
     os << gf.name() << "(D=" << gf.D() << ",a=" << gf.a() << ")";
     return os;
 }
+
 } // gf11
 #endif// GF11_2D_ABS_SYM_HPP

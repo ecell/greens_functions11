@@ -15,11 +15,10 @@
 namespace gf11
 {
 
-template<typename realT>
 class GreensFunction3DAbsSym
 {
   public:
-    using real_type = realT;
+    using real_type = double;
 
   public:
     GreensFunction3DAbsSym(const real_type D, const real_type a) noexcept
@@ -46,30 +45,18 @@ class GreensFunction3DAbsSym
 
   private:
 
-    static constexpr std::uintmax_t max_iteration_count = 100;
-    static constexpr real_type CUTOFF = 1e-10;
-    static constexpr real_type CUTOFF_H = 6.0;
-    static const     real_type log_CUTOFF;
+    static constexpr std::uintmax_t max_iteration_count() noexcept {return 100;}
+
+    static constexpr real_type CUTOFF()     noexcept {return 1e-10;}
+    static constexpr real_type CUTOFF_H()   noexcept {return 6.0;}
+    static const     real_type log_CUTOFF() noexcept {return std::log(CUTOFF());}
+
     real_type D_;
     real_type a_;
 };
 
-template<typename realT>
-constexpr std::uintmax_t GreensFunction3DAbsSym<realT>::max_iteration_count;
-template<typename realT>
-constexpr typename GreensFunction3DAbsSym<realT>::real_type
-GreensFunction3DAbsSym<realT>::CUTOFF;
-template<typename realT>
-constexpr typename GreensFunction3DAbsSym<realT>::real_type
-GreensFunction3DAbsSym<realT>::CUTOFF_H;
-template<typename realT>
-const typename GreensFunction3DAbsSym<realT>::real_type
-GreensFunction3DAbsSym<realT>::log_CUTOFF =
-    std::log(GreensFunction3DAbsSym<realT>::CUTOFF);
-
-template<typename realT>
-typename GreensFunction3DAbsSym<realT>::real_type
-GreensFunction3DAbsSym<realT>::p_survival(const real_type t) const
+inline GreensFunction3DAbsSym::real_type
+GreensFunction3DAbsSym::p_survival(const real_type t) const
 {
     const real_type a2(a_ * a_);
     const real_type pi2(boost::math::constants::pi_sqr<real_type>());
@@ -77,9 +64,8 @@ GreensFunction3DAbsSym<realT>::p_survival(const real_type t) const
     return real_type(1) - ellipticTheta4Zero(std::exp(q));
 }
 
-template<typename realT>
-typename GreensFunction3DAbsSym<realT>::real_type
-GreensFunction3DAbsSym<realT>::p_int_r_free(
+inline GreensFunction3DAbsSym::real_type
+GreensFunction3DAbsSym::p_int_r_free(
         const real_type r, const real_type t) const noexcept
 {
     const real_type Dt(this->D_ * t);
@@ -90,9 +76,8 @@ GreensFunction3DAbsSym<realT>::p_int_r_free(
            r * std::exp(- r * r / (4.0 * Dt)) / (sqrtPI * sqrtDt);
 }
 
-template<typename realT>
-typename GreensFunction3DAbsSym<realT>::real_type
-GreensFunction3DAbsSym<realT>::p_int_r(
+inline GreensFunction3DAbsSym::real_type
+GreensFunction3DAbsSym::p_int_r(
         const real_type r, const real_type t) const noexcept
 {
     if(std::abs(this->p_int_r_free(r, t)) < CUTOFF)
@@ -139,10 +124,8 @@ GreensFunction3DAbsSym<realT>::p_int_r(
     return value * factor;
 }
 
-
-template<typename realT>
-typename GreensFunction3DAbsSym<realT>::real_type
-GreensFunction3DAbsSym<realT>::p_r_fourier(
+inline GreensFunction3DAbsSym::real_type
+GreensFunction3DAbsSym::p_r_fourier(
         const real_type r, const real_type t) const
 {
     const real_type a2  = a_ * a_;
@@ -187,9 +170,8 @@ GreensFunction3DAbsSym<realT>::p_r_fourier(
     return value / factor;
 }
 
-template<typename realT>
-typename GreensFunction3DAbsSym<realT>::real_type
-GreensFunction3DAbsSym<realT>::drawTime(const real_type rnd) const
+inline GreensFunction3DAbsSym::real_type
+GreensFunction3DAbsSym::drawTime(const real_type rnd) const
 {
     if(rnd >= 1.0 || rnd < 0.0)
     {
@@ -263,9 +245,8 @@ GreensFunction3DAbsSym<realT>::drawTime(const real_type rnd) const
                  max_iteration_count, "GreensFunction3DAbsSym::drawTime()");
 }
 
-template<typename realT>
-typename GreensFunction3DAbsSym<realT>::real_type
-GreensFunction3DAbsSym<realT>::drawR(
+inline GreensFunction3DAbsSym::real_type
+GreensFunction3DAbsSym::drawR(
         const real_type rnd, const real_type t) const
 {
     if (rnd >= 1.0 || rnd < 0.0)
@@ -324,9 +305,8 @@ GreensFunction3DAbsSym<realT>::drawR(
     }
 }
 
-template<typename realT>
-typename GreensFunction3DAbsSym<realT>::real_type
-GreensFunction3DAbsSym<realT>::ellipticTheta4Zero(const real_type q)
+inline GreensFunction3DAbsSym::real_type
+GreensFunction3DAbsSym::ellipticTheta4Zero(const real_type q)
 {
     if (std::abs(q) > 1.0)
     {
@@ -355,10 +335,9 @@ GreensFunction3DAbsSym<realT>::ellipticTheta4Zero(const real_type q)
     return value;
 }
 
-template<typename charT, typename traitsT, typename realT>
+template<typename charT, typename traitsT>
 inline std::basic_ostream<charT, traitsT>&
-operator<<(std::basic_ostream<charT, traitsT>& os,
-           const GreensFunction3DAbsSym<realT>& gf)
+operator<<(std::basic_ostream<charT, traitsT>& os, const GreensFunction3DAbsSym& gf)
 {
     os << "GreensFunction3DAbsSym("
        << "D=" << gf.D() << ", " << "a=" << gf.a() << ")";
