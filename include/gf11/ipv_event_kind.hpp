@@ -6,21 +6,22 @@
 namespace gf11
 {
 
-enum class IpvEventKind : std::uint8_t
+// This name is a bit confusing, but is kept for the sake of backward compatibility.
+enum class GreensFunction : std::uint8_t
 {
-    ipv_escape,
-    ipv_reaction,
+    IV_ESCAPE,
+    IV_REACTION
 };
 
-inline std::ostream& operator<<(std::ostream& os, IpvEventKind k)
+inline std::ostream& operator<<(std::ostream& os, GreensFunction kind)
 {
-    if(k == IpvEventKind::ipv_escape)
+    if(kind == GreensFunction::IV_ESCAPE)
     {
-        os << "ipv_escape";
+        os << "iv_escape";
     }
-    else if(k == IpvEventKind::ipv_reaction)
+    else if(kind == GreensFunction::IV_REACTION)
     {
-        os << "ipv_reaction";
+        os << "iv_reaction";
     }
     else
     {
