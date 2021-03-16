@@ -49,7 +49,7 @@ class GreensFunction3DAbsSym
 
     static constexpr real_type CUTOFF()     noexcept {return 1e-10;}
     static constexpr real_type CUTOFF_H()   noexcept {return 6.0;}
-    static const     real_type log_CUTOFF() noexcept {return std::log(CUTOFF());}
+    static           real_type log_CUTOFF() noexcept {return std::log(CUTOFF());}
 
     real_type D_;
     real_type a_;
@@ -80,7 +80,7 @@ inline GreensFunction3DAbsSym::real_type
 GreensFunction3DAbsSym::p_int_r(
         const real_type r, const real_type t) const noexcept
 {
-    if(std::abs(this->p_int_r_free(r, t)) < CUTOFF)
+    if(std::abs(this->p_int_r_free(r, t)) < CUTOFF())
     {// p_int_r is always smaller than p_free.
         return 0.0;
     }
@@ -95,7 +95,7 @@ GreensFunction3DAbsSym::p_int_r(
     const real_type DtPIsq_asq = D_ * t * PI2 * inva * inva;
 
     const real_type maxn = (a_ / boost::math::constants::pi<real_type>()) *
-                            std::sqrt((DtPIsq_asq - log_CUTOFF)/ Dt);
+                            std::sqrt((DtPIsq_asq - log_CUTOFF())/ Dt);
 //  original: std::sqrt(std::log(std::exp(DtPIsq_asq) / CUTOFF) / Dt);
 
     const std::int64_t N_MAX = 10000;
@@ -231,7 +231,7 @@ GreensFunction3DAbsSym::drawTime(const real_type rnd) const
                 break;
             }
             if(std::abs(low) <= t_guess * 1e-6 ||
-               std::abs(low_value - low_value_prev) < CUTOFF)
+               std::abs(low_value - low_value_prev) < CUTOFF())
             {
                 std::cerr << "couldn't adjust low\n";
                 return low;
@@ -242,7 +242,7 @@ GreensFunction3DAbsSym::drawTime(const real_type rnd) const
     }
     tolerance<real_type> tol(/*absolute =*/1e-18, /*relative =*/1e-12);
     return find_root(is_surviving, low, high, low_value, high_value, tol,
-                 max_iteration_count, "GreensFunction3DAbsSym::drawTime()");
+                 max_iteration_count(), "GreensFunction3DAbsSym::drawTime()");
 }
 
 inline GreensFunction3DAbsSym::real_type
@@ -264,7 +264,7 @@ GreensFunction3DAbsSym::drawR(
         return 0.0;
     }
 
-    const real_type thresholdDistance(CUTOFF_H * std::sqrt(6.0 * D_ * t));
+    const real_type thresholdDistance(CUTOFF_H() * std::sqrt(6.0 * D_ * t));
 
     const real_type low(0.0);
     const real_type high(a_);
@@ -286,7 +286,7 @@ GreensFunction3DAbsSym::drawR(
         auto diffuse_r = [target, t, this](const real_type r) -> real_type {
             return this->p_int_r(r, t) - target;
         };
-        return find_root(diffuse_r, low, high, tol, max_iteration_count,
+        return find_root(diffuse_r, low, high, tol, max_iteration_count(),
                      "GreensFunction3DAbsSym::drawR()");
     }
     else // use r_free.
@@ -300,7 +300,7 @@ GreensFunction3DAbsSym::drawR(
             return this->p_int_r_free(r, t) - rnd;
         };
 
-        return find_root(diffuse_r_free, low, high, tol, max_iteration_count,
+        return find_root(diffuse_r_free, low, high, tol, max_iteration_count(),
                      "GreensFunction3DAbsSym::drawR()");
     }
 }
