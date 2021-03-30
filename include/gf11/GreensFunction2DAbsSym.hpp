@@ -106,7 +106,7 @@ GreensFunction2DAbsSym::drawTime(const real_type rnd) const
 {
     if(!(0.0 <= rnd && rnd < 1.0))
     {
-        throw_exception<std::invalid_argument>("GreensFunction2DRadAbs::drawTime: "
+        throw_exception<std::invalid_argument>("GreensFunction2DAbsSym::drawTime: "
             "rnd(", rnd, ") must be in the range [0,1)");
     }
     if(this->D_ == 0 || this->a_ == std::numeric_limits<real_type>::infinity())
@@ -140,7 +140,7 @@ GreensFunction2DAbsSym::drawTime(const real_type rnd) const
 
             if(std::abs(high) >= t_guess * 1e+6)
             {
-                throw_exception<std::invalid_argument>("GreensFunction2DRadAbs::"
+                throw_exception<std::invalid_argument>("GreensFunction2DAbsSym::"
                     "drawTime: unable to find upper limit of time");
             }
             high_v = value;
@@ -168,7 +168,7 @@ GreensFunction2DAbsSym::drawTime(const real_type rnd) const
     }
     const tolerance<real_type> tol(/*absolute =*/1e-18, /*relative =*/1e-12);
     return find_root(p_surv_eq, low, high, low_v, high_v, tol, 100,
-                     "GreensFunction2DRadAbs::drawTime");
+                     "GreensFunction2DAbsSym::drawTime");
 }
 
 inline GreensFunction2DAbsSym::real_type
@@ -176,7 +176,7 @@ GreensFunction2DAbsSym::drawR(const real_type rnd, const real_type t) const
 {
     if(!(0.0 <= rnd && rnd < 1.0))
     {
-        throw_exception<std::invalid_argument>("GreensFunction2DRadAbs::drawR: "
+        throw_exception<std::invalid_argument>("GreensFunction2DAbsSym::drawR: "
             "rnd(", rnd, ") must be in the range [0,1)", rnd);
     }
     if (t < 0)
