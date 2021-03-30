@@ -417,7 +417,7 @@ GreensFunction2DRadAbs::get_alpha(const std::size_t n, /* order of the Bessel fn
     // # Expansion of root table
 
     // If doesn't contain requested value, expand table until value
-    const auto old_size = alpha_table_.size();
+    const auto old_size = alpha_table.size();
     if(old_size <= i)
     {
         // Expand the table, temporarily fill with zeroes
