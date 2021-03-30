@@ -10,7 +10,7 @@
 namespace gf11
 {
 
-// XXX: sumup_until_convergence depends on GSL, so return type is fixed as double.
+// XXX: sumup_until_convergence depends on GSL, so the return type is fixed as double.
 
 // F should take an unsigned integer and return a double.
 template<typename F>

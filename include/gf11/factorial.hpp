@@ -20,10 +20,10 @@ struct compiletime_array
 
 template<typename realT>
 inline constexpr realT factorial_impl_rec(
-    const realT current, const std::size_t i, const std::size_t max) noexcept
+    const realT current, const std::size_t i, const std::size_t maximum) noexcept
 {
-    return (i > max) ? current : // for max == 0 case
-            factorial_impl_rec<realT>(current * static_cast<realT>(i), i+1, max);
+    return (i > maximum) ? current : // for max == 0 case
+            factorial_impl_rec<realT>(current * static_cast<realT>(i), i+1, maximum);
 }
 
 template<typename realT>
@@ -82,12 +82,11 @@ struct factorial_r_table
     static constexpr compiletime_array<realT, N> table =
         make_factorial_r_table<realT>(make_index_sequence<N>{});
 
-    constexpr static inline value_type get(std::size_t n) noexcept
+    static inline constexpr value_type get(std::size_t n) noexcept
     {
         return (n < N) ? factorial_r_table<realT, N>::table.value[n] : value_type(0.0);
     }
 };
-
 template<typename realT, std::size_t N>
 constexpr std::size_t factorial_r_table<realT, N>::size;
 template<typename realT, std::size_t N>
