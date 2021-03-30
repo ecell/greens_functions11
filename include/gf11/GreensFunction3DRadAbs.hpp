@@ -32,6 +32,11 @@ class GreensFunction3DRadAbs
   public:
     using real_type = double;
 
+    // XXX This name of enum is too confusing to use, but is kept for backward
+    //     compatibility (originally, it was a normal enum defined in a base
+    //     class, `GreensFunction`.)
+    using event_type = GreensFunction;
+
   public:
     GreensFunction3DRadAbs(
             const real_type D,     const real_type kf, const real_type r0,
@@ -64,15 +69,10 @@ class GreensFunction3DRadAbs
     real_type h()     const noexcept {return this->h_;}
     real_type sigma() const noexcept {return this->sigma_;}
 
-    real_type drawTime     (const real_type rnd) const;
-    real_type drawR        (const real_type rnd, const real_type t) const;
-    real_type drawTheta    (const real_type rnd, const real_type r,
-                            const real_type t  ) const;
-
-    // XXX This name of enum is too confusing to use, but is kept for backward
-    //     compatibility (originally, it was a normal enum defined in a base
-    //     class, `GreensFunction`.)
-    GreensFunction drawEventType(const real_type rnd, const real_type t) const;
+    real_type  drawTime     (const real_type rnd) const;
+    event_type drawEventType(const real_type rnd, const real_type t) const;
+    real_type  drawR        (const real_type rnd, const real_type t) const;
+    real_type  drawTheta    (const real_type rnd, const real_type r, const real_type t) const;
 
     static const char* name() noexcept {return "GreensFunction3DRadAbs";}
 
