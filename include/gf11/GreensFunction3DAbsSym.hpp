@@ -1,5 +1,5 @@
-#ifndef GF11_3D_ABS_SYM
-#define GF11_3D_ABS_SYM
+#ifndef GF11_3D_ABS_SYM_HPP
+#define GF11_3D_ABS_SYM_HPP
 #include "find_root.hpp"
 #include "throw_exception.hpp"
 #include "tolerance.hpp"
@@ -345,4 +345,4 @@ operator<<(std::basic_ostream<charT, traitsT>& os, const GreensFunction3DAbsSym&
 }
 
 }// gf11
-#endif//GF11_3D_ABS_SYM
+#endif//GF11_3D_ABS_SYM_HPP

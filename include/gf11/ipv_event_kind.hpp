@@ -1,5 +1,5 @@
-#ifndef GF11_IPV_EVENT_KIND_H
-#define GF11_IPV_EVENT_KIND_H
+#ifndef GF11_IPV_EVENT_KIND_HPP
+#define GF11_IPV_EVENT_KIND_HPP
 #include <cstdint>
 #include <ostream>
 
@@ -31,4 +31,4 @@ inline std::ostream& operator<<(std::ostream& os, GreensFunction kind)
 }
 
 } // gf11
-#endif// GF11_TAGS_H
+#endif// GF11_TAGS_HPP

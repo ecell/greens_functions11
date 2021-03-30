@@ -1,5 +1,5 @@
-#ifndef GF11_MATHEMATICAL_UTILITY_H
-#define GF11_MATHEMATICAL_UTILITY_H
+#ifndef GF11_MATHEMATICAL_UTILITY_HPP
+#define GF11_MATHEMATICAL_UTILITY_HPP
 #include <boost/math/special_functions/erf.hpp>
 #include <boost/math/constants/constants.hpp>
 #include <cmath>
@@ -65,4 +65,4 @@ realT ip_theta_free(const realT theta, const realT r, const realT r0, const real
 }
 
 } // gf11
-#endif //GF11_MATHEMATICAL_UTILITY_H
+#endif //GF11_MATHEMATICAL_UTILITY_HPP

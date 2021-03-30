@@ -1,5 +1,5 @@
-#ifndef GF11_FACTORIAL_H
-#define GF11_FACTORIAL_H
+#ifndef GF11_FACTORIAL_HPP
+#define GF11_FACTORIAL_HPP
 #include "index_sequence.hpp"
 #include <limits>
 
@@ -114,4 +114,4 @@ static_assert(factorial<double>(4) == 2.0 * 3.0 * 4.0, "");
 static_assert(factorial<double>(5) == 2.0 * 3.0 * 4.0 * 5.0, "");
 
 } // gf11
-#endif// GF11_FACTORIAL_H
+#endif// GF11_FACTORIAL_HPP

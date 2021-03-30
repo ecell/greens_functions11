@@ -1,5 +1,5 @@
-#ifndef GF11_3D_RAD_INF_H
-#define GF11_3D_RAD_INF_H
+#ifndef GF11_3D_RAD_INF_HPP
+#define GF11_3D_RAD_INF_HPP
 
 #include "throw_exception.hpp"
 #include "factorial.hpp"
@@ -524,4 +524,4 @@ operator<<(std::basic_ostream<charT, traitsT>& os, const GreensFunction3DRadInf&
 }
 
 }// gf11
-#endif// GF11_3D_RAD_INF
+#endif// GF11_3D_RAD_INF_HPP

@@ -1,5 +1,5 @@
-#ifndef GF11_THROW_EXCEPTION_H
-#define GF11_THROW_EXCEPTION_H
+#ifndef GF11_THROW_EXCEPTION_HPP
+#define GF11_THROW_EXCEPTION_HPP
 #include <sstream>
 #include <string>
 #include <utility>
@@ -37,4 +37,4 @@ template<class Exception, typename ... Ts>
 }
 
 } // gf11
-#endif// GF11_THROW_EXCEPTION_H
+#endif// GF11_THROW_EXCEPTION_HPP

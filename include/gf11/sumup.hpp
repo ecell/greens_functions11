@@ -1,5 +1,5 @@
-#ifndef GF11_SUMUP_H
-#define GF11_SUMUP_H
+#ifndef GF11_SUMUP_HPP
+#define GF11_SUMUP_HPP
 #include "type_traits.hpp"
 #include <gsl/gsl_sum.h> // series acceleration method
 #include <vector>
@@ -94,4 +94,4 @@ double sumup_all(F&& f, std::size_t max_terms) noexcept
 }
 
 } // gf11
-#endif// GF11_SUMUP_H
+#endif// GF11_SUMUP_HPP

@@ -1,5 +1,5 @@
-#ifndef GF11_INDEX_SEQUENCE_H
-#define GF11_INDEX_SEQUENCE_H
+#ifndef GF11_INDEX_SEQUENCE_HPP
+#define GF11_INDEX_SEQUENCE_HPP
 #include <type_traits>
 #include <cstddef>
 
@@ -71,4 +71,4 @@ static_assert(std::is_same<make_index_sequence< 8>, index_sequence<0,1,2,3,4,5,6
 static_assert(std::is_same<make_index_sequence<16>, index_sequence<0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15>>::value, "");
 
 } // gf11
-#endif //GF11_INDEX_SEQUENCE_H
+#endif //GF11_INDEX_SEQUENCE_HPP
