@@ -729,7 +729,7 @@ GreensFunction2DRadAbs::guess_maxi(const real_type t) const
     const real_type max_alpha = 1.0 / std::sqrt(std::exp(boost::math::lambert_w0(2 * Dt / thrsq)) * thrsq);
     const std::size_t    maxi = safety + static_cast<std::size_t>(max_alpha * (a_ - sigma_) / pi);
 
-    return std::min<std::size_t>(maxi, MAX_ALPHA_SEQ());
+    return (std::min<std::size_t>)(maxi, MAX_ALPHA_SEQ());
 }
 
 inline void
@@ -1189,7 +1189,7 @@ GreensFunction2DRadAbs::drawTime(const real_type rnd) const
     t_guess *= 0.1;
 
     // something with determining the lowest possible t
-    const real_type minT = std::min(sigma_ * sigma_ / D_ * MIN_T_FACTOR(), t_guess * 1e-7);
+    const real_type minT = (std::min)(sigma_ * sigma_ / D_ * MIN_T_FACTOR(), t_guess * 1e-7);
 
     std::vector<real_type> p_surv_table;
     const auto p_surv_eq =

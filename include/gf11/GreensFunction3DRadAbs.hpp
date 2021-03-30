@@ -386,7 +386,7 @@ GreensFunction3DRadAbs::guess_max_i(const real_type t) const
     const std::uint32_t maxi = safety + static_cast<std::uint32_t>(
         max_alpha * (a_ - sigma_) / boost::math::constants::pi<real_type>());
 
-    return std::min(maxi, static_cast<std::uint32_t>(MAX_ALPHA_SEQ()));
+    return (std::min)(maxi, static_cast<std::uint32_t>(MAX_ALPHA_SEQ()));
 }
 
 inline GreensFunction3DRadAbs::real_type
@@ -424,7 +424,7 @@ GreensFunction3DRadAbs::p_survival_nocollision(const real_type t) const
     const real_type angle_factor = PIr0 * a_r;
     const real_type exp_factor   = -Dt * pi_sq * asq_r;
 
-    const std::uint32_t i_max = std::max(static_cast<std::uint32_t>(std::ceil(
+    const std::uint32_t i_max = (std::max)(static_cast<std::uint32_t>(std::ceil(
         std::sqrt(pi_sq - asq * std::log(TOLERANCE()) / Dt) * one_over_pi)), 2u);
 
     real_type p    = 0.0;
@@ -976,10 +976,10 @@ GreensFunction3DRadAbs::drawTime(const real_type rnd) const
         return 0.0;
     }
 
-    const real_type dist = (kf_ == 0) ? (a_-r0_) : std::min(a_-r0_, r0_-sigma_);
+    const real_type dist = (kf_ == 0) ? (a_-r0_) : (std::min)(a_-r0_, r0_-sigma_);
     const real_type t_guess = (dist * dist / (6.0 * D_)) * 0.1;
-    const real_type min_t = std::min(sigma_ * sigma_ / D_ * MIN_T_FACTOR(),
-                                     t_guess * 1e-6);
+    const real_type min_t = (std::min)(sigma_ * sigma_ / D_ * MIN_T_FACTOR(),
+                                       t_guess * 1e-6);
 
     std::vector<real_type> table;
     auto p_surv_eq = [&table, rnd, this](const real_type t) -> real_type {

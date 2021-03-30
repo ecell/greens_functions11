@@ -99,7 +99,7 @@ GreensFunction3DAbsSym::p_int_r(
 //  original: std::sqrt(std::log(std::exp(DtPIsq_asq) / CUTOFF) / Dt);
 
     const std::int64_t N_MAX = 10000;
-    const std::int64_t N = std::min(
+    const std::int64_t N = (std::min)(
             static_cast<std::int64_t>(std::ceil(maxn) + 1), N_MAX);
 
     if (N == N_MAX)
