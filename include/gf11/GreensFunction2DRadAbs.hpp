@@ -404,7 +404,7 @@ GreensFunction2DRadAbs::get_alpha(const std::size_t n, /* order of the Bessel fn
 {
     // This function searches for roots (y=0) of the so-called alpha-function
     // (::f_alpha()). It either moves a small search interval along the x-axis
-    // to check for sign-change (which would indicate a root), and calls the GSL
+    // to check for sign-change (which would indicate a root), and calls the
     // root finder, or directly calls the root finder if the spacing between
     // roots is found to be converged.
 
@@ -445,7 +445,7 @@ GreensFunction2DRadAbs::get_alpha(const std::size_t n, /* order of the Bessel fn
                     //      high and low are the return-values of GiveRootInterval.
                     std::tie(low, high) = this->give_root_interval(n);
 
-                    // ### Finds the root using the GSL rootfinder
+                    // ### Finds the root
                     alpha_table[j] = this->get_alpha_root(low, high, n);
 
                     // Check if we can use method 2 for next roots
@@ -459,7 +459,7 @@ GreensFunction2DRadAbs::get_alpha(const std::size_t n, /* order of the Bessel fn
                     // ### Get interval by simple extrapolation
                     std::tie(low, high) = this->give_root_interval_simple(n, j);
 
-                    // ### Finds the root using the GSL rootfinder
+                    // ### Finds the root
                     alpha_table[j] = this->get_alpha_root(low, high, n);
                 }
             }
