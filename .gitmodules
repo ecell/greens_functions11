@@ -1,0 +1,3 @@
+[submodule "extlib/greens_functions"]
+	path = extlib/greens_functions
+	url = https://github.com/ecell/greens_functions.git
