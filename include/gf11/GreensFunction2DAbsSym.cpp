@@ -1,4 +1,6 @@
+#ifndef GF11_HEADER_ONLY
 #include "GreensFunction2DAbsSym.hpp"
+#endif
 
 #include "config.hpp"
 #include "find_root.hpp"
