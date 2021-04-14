@@ -14,5 +14,10 @@ namespace gf11
     using return_type_of_t = typename std::result_of<F(Args...)>::type;
 #endif
 
+template<typename T>
+using remove_cvref_t = typename std::remove_cv<
+        typename std::remove_reference<T>::type
+    >::type;
+
 } // gf11
 #endif// GF11_TYPE_TRAITS_HPP

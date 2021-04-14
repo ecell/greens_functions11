@@ -16,7 +16,7 @@ namespace gf11
 template<typename F>
 double sumup_until_convergence(F&& f, std::size_t max_terms, double tol)
 {
-    using function_type = typename std::remove_const<typename std::remove_reference<F>::type>::type;
+    using function_type = remove_cvref_t<F>;
     static_assert(std::is_same<return_type_of_t<function_type, std::uint32_t>, double>::value, "");
 
     // if(relative difference < tolerance) for 4 (by default) concecutive times,
@@ -76,15 +76,15 @@ double sumup_until_convergence(F&& f, std::size_t max_terms, double tol)
 }
 
 template<typename F>
-double sumup_all(F&& f, std::size_t max_terms) noexcept
+return_type_of_t<remove_cvref<F>, std::uint32_t>
+sumup_all(F&& f, std::size_t max_terms) noexcept
 {
-    using function_type = typename std::remove_const<typename std::remove_reference<F>::type>::type;
-    static_assert(std::is_same<return_type_of_t<function_type, std::uint32_t>, double>::value, "");
+    using return_type = return_type_of_t<remove_cvref<F>, std::uint32_t>;
 
-    double sum = f(0u);
-    if(sum == 0.0)
+    return_type sum = f(0u);
+    if(sum == return_type(0))
     {
-        return 0;
+        return return_type(0);
     }
     for(std::size_t i=1; i<max_terms; ++i)
     {
