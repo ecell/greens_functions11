@@ -3,6 +3,7 @@
 #include <iosfwd>
 #include <cmath>
 #include <cstddef>
+#include <cstdint>
 
 namespace gf11
 {
