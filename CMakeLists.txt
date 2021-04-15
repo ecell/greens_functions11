@@ -25,6 +25,7 @@ if(GF11_BUILD_LIBRARY)
         include/gf11/GreensFunction2DRadAbs.hpp
         include/gf11/GreensFunction2DRadAbs.cpp
         include/gf11/GreensFunction3DAbsSym.hpp
+        include/gf11/GreensFunction3DAbsSym.cpp
         include/gf11/GreensFunction3DRadAbs.hpp
         include/gf11/GreensFunction3DRadInf.hpp
         include/gf11/index_sequence.hpp
