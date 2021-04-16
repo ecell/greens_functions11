@@ -28,6 +28,7 @@ if(GF11_BUILD_LIBRARY)
         include/gf11/GreensFunction3DAbsSym.cpp
         include/gf11/GreensFunction3DRadAbs.hpp
         include/gf11/GreensFunction3DRadInf.hpp
+        include/gf11/GreensFunction3DRadInf.cpp
         include/gf11/index_sequence.hpp
         include/gf11/ipv_event_kind.hpp
         include/gf11/SphericalBesselGenerator.hpp
