@@ -76,10 +76,10 @@ double sumup_until_convergence(F&& f, std::size_t max_terms, double tol)
 }
 
 template<typename F>
-return_type_of_t<remove_cvref<F>, std::uint32_t>
+return_type_of_t<remove_cvref_t<F>, std::uint32_t>
 sumup_all(F&& f, std::size_t max_terms) noexcept
 {
-    using return_type = return_type_of_t<remove_cvref<F>, std::uint32_t>;
+    using return_type = return_type_of_t<remove_cvref_t<F>, std::uint32_t>;
 
     return_type sum = f(0u);
     if(sum == return_type(0))
