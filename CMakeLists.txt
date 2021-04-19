@@ -44,4 +44,4 @@ else()
 endif()
 
 add_subdirectory(extlib)
-add_subdirectory(src)
+add_subdirectory(tests)
