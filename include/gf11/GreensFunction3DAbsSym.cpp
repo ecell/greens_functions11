@@ -59,7 +59,7 @@ GreensFunction3DAbsSym::p_int_r(
     const real_type Dt    = D_ * t;
     const real_type DtPIsq_asq = D_ * t * PI2 * inva * inva;
 
-    const real_type maxn = (a_ / boost::math::constants::pi<real_type>()) *
+    const real_type maxn = (a_ * boost::math::constants::one_div_pi<real_type>()) *
                             std::sqrt((DtPIsq_asq - log_CUTOFF())/ Dt);
 //  original: std::sqrt(std::log(std::exp(DtPIsq_asq) / CUTOFF) / Dt);
 
@@ -85,7 +85,7 @@ GreensFunction3DAbsSym::p_int_r(
         value += term;
     }
 
-    const real_type factor(2 * inva / boost::math::constants::pi<real_type>());
+    const real_type factor(2 * inva * boost::math::constants::one_div_pi<real_type>());
     return value * factor;
 }
 
