@@ -48,6 +48,13 @@ GreensFunction2DAbsSym::p_survival(const real_type t) const
 GF11_INLINE GreensFunction2DAbsSym::real_type
 GreensFunction2DAbsSym::p_int_r(const real_type r, const real_type t) const
 {
+    if(r == real_type(0.0))
+    {
+        // if r == 0, then all the terms are zero because `term` contains `r`
+        // in its numerator.
+        return 0.0;
+    }
+
     constexpr int N_max = 10000;
     const real_type Dt = this->D_ * t;
     const real_type ra = real_type(1) / this->a_;
@@ -171,5 +178,6 @@ GreensFunction2DAbsSym::drawR(const real_type rnd, const real_type t) const
     return find_root(p_r_eq, real_type(0), this->a_, tol, 100,
                      "GreensFunction2DAbsSym::drawR");
 }
+
 
 } // gf11
