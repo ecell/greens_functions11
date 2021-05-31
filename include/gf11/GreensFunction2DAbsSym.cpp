@@ -11,6 +11,8 @@
 #include <boost/math/special_functions/bessel.hpp>
 #include <boost/math/special_functions/erf.hpp>
 
+#include <gsl/gsl_sf_bessel.h>
+
 #include <limits>
 #include <stdexcept>
 #include <vector>
@@ -24,6 +26,8 @@ namespace gf11
 GF11_INLINE GreensFunction2DAbsSym::real_type
 GreensFunction2DAbsSym::p_survival(const real_type t) const
 {
+    namespace policies = boost::math::policies;
+
     constexpr int N_max = 100;
 
     const real_type Dt = this->D_ * t;
@@ -32,8 +36,27 @@ GreensFunction2DAbsSym::p_survival(const real_type t) const
     real_type sum = 0;
     for(int n=1; n<=N_max; ++n)
     {
-        const real_type aAn    = boost::math::cyl_bessel_j_zero<real_type>(0, n);
-        const real_type J1_aAn = boost::math::cyl_bessel_j(1, aAn);
+        // XXX
+        // Normal boost is slower than GSL, because of double promotion.
+//         const real_type aAn    = boost::math::cyl_bessel_j_zero<real_type>(0, n);
+//         const real_type J1_aAn = boost::math::cyl_bessel_j(1, aAn);
+
+        // GSL is ~1.25x faster than the normal boost
+//         const real_type aAn    = gsl_sf_bessel_zero_J0(n);
+//         const real_type J1_aAn = gsl_sf_bessel_J1(aAn);
+
+        // This combination is the fastest. This is ~3.0x faster than the normal boost.
+        // promote_double<false> diables calculation using `long double`. Yes, by default,
+        // boost calculates the special functions using `long double` internally.
+        // By defining -DBOOST_MATH_PROMOTE_DOUBLE_POLICY=false, boost only uses
+        // `double` to calculate the stuff. Since the relative difference between
+        // Boost implementation and the original gsl implementation in GreensFunctions is
+        // normally 1e-16~1e-15, I think the differences are ignorable...
+
+        const real_type aAn    = gsl_sf_bessel_zero_J0(n);
+        const real_type J1_aAn = boost::math::cyl_bessel_j(1, aAn,
+            policies::make_policy(policies::promote_double<false>()));
+
         const real_type An     = aAn * ra;
         const real_type term   = std::exp(-Dt * An * An) / (An * J1_aAn);
         sum += term;
@@ -48,6 +71,7 @@ GreensFunction2DAbsSym::p_survival(const real_type t) const
 GF11_INLINE GreensFunction2DAbsSym::real_type
 GreensFunction2DAbsSym::p_int_r(const real_type r, const real_type t) const
 {
+    namespace policies = boost::math::policies;
     if(r == real_type(0.0))
     {
         // if r == 0, then all the terms are zero because `term` contains `r`
@@ -62,11 +86,14 @@ GreensFunction2DAbsSym::p_int_r(const real_type r, const real_type t) const
     real_type sum = 0.0;
     for(int n=1; n <= N_max; ++n)
     {
-        const real_type aAn = boost::math::cyl_bessel_j_zero<real_type>(0, n);
+//         const real_type aAn = boost::math::cyl_bessel_j_zero<real_type>(0, n);
+        const real_type aAn = gsl_sf_bessel_zero_J0(n);
         const real_type An  = aAn * ra;
         const real_type rAn = r * An;
-        const real_type J1_aAn = boost::math::cyl_bessel_j(1, aAn); // CylBesselGen
-        const real_type J1_rAn = boost::math::cyl_bessel_j(1, rAn);
+        const real_type J1_aAn = boost::math::cyl_bessel_j(1, aAn,
+            policies::make_policy(policies::promote_double<false>()));
+        const real_type J1_rAn = boost::math::cyl_bessel_j(1, rAn,
+            policies::make_policy(policies::promote_double<false>()));
         const real_type term = (std::exp(-Dt * An * An) * r * J1_rAn) /
                                (An * J1_aAn * J1_aAn);
         sum += term;
