@@ -36,7 +36,8 @@ GreensFunction2DAbsSym::p_survival(const real_type t) const
     real_type sum = 0;
     for(int n=1; n<=N_max; ++n)
     {
-        // XXX
+        // XXX Here, it uses both boost and GSL for the sake of speed.
+
         // Normal boost is slower than GSL, because of double promotion.
 //         const real_type aAn    = boost::math::cyl_bessel_j_zero<real_type>(0, n);
 //         const real_type J1_aAn = boost::math::cyl_bessel_j(1, aAn);
@@ -45,13 +46,15 @@ GreensFunction2DAbsSym::p_survival(const real_type t) const
 //         const real_type aAn    = gsl_sf_bessel_zero_J0(n);
 //         const real_type J1_aAn = gsl_sf_bessel_J1(aAn);
 
-        // This combination is the fastest. This is ~3.0x faster than the normal boost.
-        // promote_double<false> diables calculation using `long double`. Yes, by default,
-        // boost calculates the special functions using `long double` internally.
+        // The following combination is the fastest. This is ~3.0x faster than
+        // the normal boost. `promote_double<false>` diables calculation using
+        // `long double`. Yes, by default, boost calculates the special functions
+        // using `long double` internally.
         // By defining -DBOOST_MATH_PROMOTE_DOUBLE_POLICY=false, boost only uses
         // `double` to calculate the stuff. Since the relative difference between
-        // Boost implementation and the original gsl implementation in GreensFunctions is
-        // normally 1e-16~1e-15, I think the differences are ignorable...
+        // Boost implementation and the original gsl implementation in
+        // GreensFunctions is normally 1e-16~1e-15, I think the differences are
+        // ignorable...
 
         const real_type aAn    = gsl_sf_bessel_zero_J0(n);
         const real_type J1_aAn = boost::math::cyl_bessel_j(1, aAn,
@@ -86,10 +89,13 @@ GreensFunction2DAbsSym::p_int_r(const real_type r, const real_type t) const
     real_type sum = 0.0;
     for(int n=1; n <= N_max; ++n)
     {
+        // gsl_sf_bessel_zero_J0 is faster than boost::cyl_bessel_j_zero.
 //         const real_type aAn = boost::math::cyl_bessel_j_zero<real_type>(0, n);
         const real_type aAn = gsl_sf_bessel_zero_J0(n);
         const real_type An  = aAn * ra;
         const real_type rAn = r * An;
+
+        // boost::cyl_bessel_j is faster than gsl_sf_bessel_J1.
         const real_type J1_aAn = boost::math::cyl_bessel_j(1, aAn,
             policies::make_policy(policies::promote_double<false>()));
         const real_type J1_rAn = boost::math::cyl_bessel_j(1, rAn,
