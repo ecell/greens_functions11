@@ -1,6 +1,7 @@
 #include <gf11/GreensFunction3DAbsSym.hpp>
 #include <greens_functions/GreensFunction3DAbsSym.hpp>
 #include <iostream>
+#include <chrono>
 
 template<typename Rep, typename Period>
 double format_as_seconds(const std::chrono::duration<Rep, Period>& dur)
