@@ -1,10 +1,13 @@
 set(EXE_NAMES
-    GreensFunction2DAbsSym
+    GreensFunction2DAbsSym_drawTime
+    GreensFunction2DAbsSym_drawR
     GreensFunction2DRadAbs
     GreensFunction3DAbsSym
     GreensFunction3DRadAbs
     GreensFunction3DRadInf
     )
+
+include_directories(${CMAKE_BINARY_DIR})
 
 foreach(EXE_NAME ${EXE_NAMES})
     add_executable(${EXE_NAME} ${EXE_NAME}.cpp)
