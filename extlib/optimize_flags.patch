@@ -1,0 +1,14 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index ddfefe4..6093400 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -32,6 +32,9 @@ if(WIN32) # This includes Win64.
+ endif()
+ 
+ add_definitions(-DHAVE_CONFIG_H)
++add_definitions(-O3)
++add_definitions(-march=native)
++add_definitions(-mtune=native)
+ 
+ # check some functions are supported or not...
+ include(CheckCXXSourceCompiles)
