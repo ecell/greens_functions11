@@ -3,6 +3,12 @@
 #include <iostream>
 #include <chrono>
 
+template<typename Rep, typename Period>
+double format_as_seconds(const std::chrono::duration<Rep, Period>& dur)
+{
+    return std::chrono::duration_cast<std::chrono::microseconds>(dur).count() * 1e-6;
+}
+
 int main(int argc, char **argv)
 {
     namespace gf98 = greens_functions;
@@ -35,8 +41,8 @@ int main(int argc, char **argv)
     const auto gf11_drawTime_dur = std::chrono::system_clock::now() - gf11_drawTime_start;
 
     std::cerr << "# drawTime x" << N << "\n";
-    std::cerr << "gf98: " << std::chrono::duration_cast<std::chrono::microseconds>(gf98_drawTime_dur).count() / 1.0e6 << " [sec]\n";
-    std::cerr << "gf11: " << std::chrono::duration_cast<std::chrono::microseconds>(gf11_drawTime_dur).count() / 1.0e6 << " [sec]\n";
+    std::cerr << "gf98: " << format_as_seconds(gf98_drawTime_dur) << " [sec]\n";
+    std::cerr << "gf11: " << format_as_seconds(gf11_drawTime_dur) << " [sec]\n";
 
     std::cout << "# drawTime\n";
     std::cout << "# rnd   gf11   gf98    abserr (gf11 - gf98)   relerr (|gf11/gf98 - 1|)\n";
@@ -73,8 +79,8 @@ int main(int argc, char **argv)
     const auto gf11_drawR_dur = std::chrono::system_clock::now() - gf11_drawR_start;
 
     std::cerr << "# drawR x" << N << "\n";
-    std::cerr << "gf98: " << std::chrono::duration_cast<std::chrono::microseconds>(gf98_drawR_dur).count() / 1.0e6 << " [sec]\n";
-    std::cerr << "gf11: " << std::chrono::duration_cast<std::chrono::microseconds>(gf11_drawR_dur).count() / 1.0e6 << " [sec]\n";
+    std::cerr << "gf98: " << format_as_seconds(gf98_drawR_dur) << " [sec]\n";
+    std::cerr << "gf11: " << format_as_seconds(gf11_drawR_dur) << " [sec]\n";
 
     std::cout << "# drawR\n";
     std::cout << "# rnd   gf11   gf98    abserr (gf11 - gf98)   relerr (|gf11/gf98 - 1|)\n";
