@@ -12,7 +12,6 @@
 
 #include <boost/math/tools/roots.hpp>
 #include <boost/math/special_functions/expm1.hpp>
-#include <boost/math/special_functions/erf.hpp>
 
 #include <gsl/gsl_sf_legendre.h>
 #include <gsl/gsl_integration.h>
@@ -40,7 +39,7 @@ GreensFunction3DRadInf::p_reaction(const real_type t) const
     const auto Wf     = W(r0_m_sigma_over_sqrt4D_t, alpha_ * sqrt_t);
     const auto factor = sigma_ * kf_ / (r0_ * (kf_ + kD_));
 
-    return factor * (boost::math::erfc(r0_m_sigma_over_sqrt4D_t) - Wf);
+    return factor * (std::erfc(r0_m_sigma_over_sqrt4D_t) - Wf);
 }
 
 GF11_INLINE GreensFunction3DRadInf::real_type
@@ -63,11 +62,11 @@ GreensFunction3DRadInf::p_int_r(const real_type r, const real_type t) const
          boost::math::expm1(-r_r0_sqrtDt4    * r_r0_sqrtDt4)) *
         std::sqrt(Dt * 2 * boost::math::constants::one_div_two_pi<real_type>());
 
-    const real_type erf_r_r0_2s_sqrtDt4 = boost::math::erf(r_r0_2s_sqrtDt4);
+    const real_type erf_r_r0_2s_sqrtDt4 = std::erf(r_r0_2s_sqrtDt4);
 
-    const real_type term2 = kf_kD * r0_ * boost::math::erf(r_r0_sqrtDt4) +
+    const real_type term2 = kf_kD * r0_ * std::erf(r_r0_sqrtDt4) +
         kf_kD * r0_ * erf_r_r0_2s_sqrtDt4 +
-        ksigma2 * (boost::math::erf(r0_s_sqrtDt4) - erf_r_r0_2s_sqrtDt4);
+        ksigma2 * (std::erf(r0_s_sqrtDt4) - erf_r_r0_2s_sqrtDt4);
 
     const real_type term3 =
          kf_ * sigma_ * W(r0_s_sqrtDt4, alpha_sqrt_t) -

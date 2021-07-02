@@ -8,7 +8,6 @@
 #include "tolerance.hpp"
 
 #include <boost/math/constants/constants.hpp>
-#include <boost/math/special_functions/erf.hpp>
 #include <boost/math/tools/roots.hpp>
 
 #include <iostream>
@@ -37,7 +36,7 @@ GreensFunction3DAbsSym::p_int_r_free(
     const real_type sqrtDt(std::sqrt(Dt));
     const real_type sqrtPI(boost::math::constants::root_pi<real_type>());
 
-    return boost::math::erf(r / (sqrtDt + sqrtDt)) -
+    return std::erf(r / (sqrtDt + sqrtDt)) -
            r * std::exp(- r * r / (4.0 * Dt)) / (sqrtPI * sqrtDt);
 }
 

@@ -9,7 +9,6 @@
 
 #include <boost/math/constants/constants.hpp>
 #include <boost/math/special_functions/bessel.hpp>
-#include <boost/math/special_functions/erf.hpp>
 
 #include <gsl/gsl_sf_bessel.h>
 

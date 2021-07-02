@@ -9,7 +9,6 @@
 #include "tolerance.hpp"
 
 #include <boost/math/special_functions/bessel.hpp>
-#include <boost/math/special_functions/erf.hpp>
 #include <boost/math/special_functions/lambert_w.hpp>
 #include <boost/format.hpp>
 

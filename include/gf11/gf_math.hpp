@@ -1,6 +1,5 @@
 #ifndef GF11_MATHEMATICAL_UTILITY_HPP
 #define GF11_MATHEMATICAL_UTILITY_HPP
-#include <boost/math/special_functions/erf.hpp>
 #include <boost/math/constants/constants.hpp>
 #include <cmath>
 
@@ -32,7 +31,7 @@ inline realT expxsq_erfc(const realT x) noexcept
         */
         return (one_div_root_pi / x) * (realT(1) - x2sq_r + x2sq_r * x2sq_r);
     }
-    return std::exp(xsq) * boost::math::erfc(x);
+    return std::exp(xsq) * std::erfc(x);
 }
 
 // W(a, b) := std::exp(2 a b + b^2) erfc(a + b)

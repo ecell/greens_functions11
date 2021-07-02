@@ -177,7 +177,7 @@ GreensFunction3DRadAbs::p_survival_irr(const real_type t) const
     const real_type Wf = ::gf11::W(r0_minus_sigma_over_sqrt4D_t, alpha * sqrt_t);
     const real_type factor = sigma_ * kf_ / (r0_ * (kf_ + kD));
 
-    return 1.0 - factor * (boost::math::erfc(r0_minus_sigma_over_sqrt4D_t) - Wf);
+    return 1.0 - factor * (std::erfc(r0_minus_sigma_over_sqrt4D_t) - Wf);
 }
 
 GF11_INLINE GreensFunction3DRadAbs::real_type
