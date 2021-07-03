@@ -11,7 +11,6 @@
 #include "SphericalBesselGenerator.hpp"
 
 #include <boost/math/tools/roots.hpp>
-#include <boost/math/special_functions/expm1.hpp>
 
 #include <gsl/gsl_sf_legendre.h>
 #include <gsl/gsl_integration.h>
@@ -58,8 +57,8 @@ GreensFunction3DRadInf::p_int_r(const real_type r, const real_type t) const
     const real_type r0_s_sqrtDt4    = (r0_ - sigma_)           * rcp_sqrtDt4;
 
     const real_type term1 =
-        (boost::math::expm1(-r_r0_2s_sqrtDt4 * r_r0_2s_sqrtDt4) -
-         boost::math::expm1(-r_r0_sqrtDt4    * r_r0_sqrtDt4)) *
+        (std::expm1(-r_r0_2s_sqrtDt4 * r_r0_2s_sqrtDt4) -
+         std::expm1(-r_r0_sqrtDt4    * r_r0_sqrtDt4)) *
         std::sqrt(Dt * 2 * boost::math::constants::one_div_two_pi<real_type>());
 
     const real_type erf_r_r0_2s_sqrtDt4 = std::erf(r_r0_2s_sqrtDt4);

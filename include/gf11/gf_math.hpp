@@ -55,8 +55,8 @@ realT ip_theta_free(const realT theta, const realT r, const realT r0, const real
     const realT rr0_over_2Dt(rr0 / Dt2);
     const realT rsqr0sq_over_4Dt((r * r + r0 * r0) / (Dt2 + Dt2));
 
-    const realT term1 = boost::math::expm1(rr0_over_2Dt - rsqr0sq_over_4Dt);
-    const realT term2 = boost::math::expm1(rr0_over_2Dt * std::cos(theta) - rsqr0sq_over_4Dt);
+    const realT term1 = std::expm1(rr0_over_2Dt - rsqr0sq_over_4Dt);
+    const realT term2 = std::expm1(rr0_over_2Dt * std::cos(theta) - rsqr0sq_over_4Dt);
 
     const realT den(4.0 * std::sqrt(pi_cubed * Dt) * rr0);
 
