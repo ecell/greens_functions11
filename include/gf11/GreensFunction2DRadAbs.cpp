@@ -51,16 +51,19 @@ GreensFunction2DRadAbs::leaves_i_exp(const std::uint32_t i, const real_type t) c
 GF11_INLINE GreensFunction2DRadAbs::real_type
 GreensFunction2DRadAbs::leaves_i(const real_type alpha) const
 {
+    namespace policies = boost::math::policies;
+    constexpr auto policy = policies::make_policy(policies::promote_double<false>());
+
     // Calculates the n-th term of the summation for calculating the flux through
     // the inner interface (reaction)
 
     const real_type s_An = sigma_ * alpha;
     const real_type a_An = a_     * alpha;
 
-    const real_type J1_sAn = boost::math::cyl_bessel_j(1, s_An);
-    const real_type Y1_sAn = boost::math::cyl_neumann (1, s_An);
-    const real_type J0_aAn = boost::math::cyl_bessel_j(0, a_An);
-    const real_type Y0_aAn = boost::math::cyl_neumann (0, a_An);
+    const real_type J1_sAn = boost::math::cyl_bessel_j(1, s_An, policy);
+    const real_type Y1_sAn = boost::math::cyl_neumann (1, s_An, policy);
+    const real_type J0_aAn = boost::math::cyl_bessel_j(0, a_An, policy);
+    const real_type Y0_aAn = boost::math::cyl_neumann (0, a_An, policy);
 
     // the original comment says this is either An,0 or A0,n; TODO: write a doc
     const real_type A_i_0  = this->calc_A_i_0(alpha);
@@ -99,6 +102,8 @@ GreensFunction2DRadAbs::leavea_i_exp(const std::uint32_t i, const real_type t) c
 GF11_INLINE GreensFunction2DRadAbs::real_type
 GreensFunction2DRadAbs::calc_A_i_0(const real_type alpha) const
 {
+    namespace policies = boost::math::policies;
+    constexpr auto policy = policies::make_policy(policies::promote_double<false>());
     // Calculates the factor An,0 for (for example) determination of the flux
     // through the outer interface
 
@@ -107,14 +112,14 @@ GreensFunction2DRadAbs::calc_A_i_0(const real_type alpha) const
     const real_type r0An = r0_    * alpha;
 
 
-    const real_type J0_sAn  = boost::math::cyl_bessel_j(0, s_An);
-    const real_type J1_sAn  = boost::math::cyl_bessel_j(1, s_An);
+    const real_type J0_sAn  = boost::math::cyl_bessel_j(0, s_An, policy);
+    const real_type J1_sAn  = boost::math::cyl_bessel_j(1, s_An, policy);
 
-    const real_type J0_aAn  = boost::math::cyl_bessel_j(0, a_An);
-    const real_type Y0_aAn  = boost::math::cyl_neumann (0, a_An);
+    const real_type J0_aAn  = boost::math::cyl_bessel_j(0, a_An, policy);
+    const real_type Y0_aAn  = boost::math::cyl_neumann (0, a_An, policy);
 
-    const real_type J0_r0An = boost::math::cyl_bessel_j(0, r0An);
-    const real_type Y0_r0An = boost::math::cyl_neumann (0, r0An);
+    const real_type J0_r0An = boost::math::cyl_bessel_j(0, r0An, policy);
+    const real_type Y0_r0An = boost::math::cyl_neumann (0, r0An, policy);
 
 
     const real_type alpha_sq = alpha * alpha;
@@ -134,19 +139,21 @@ GreensFunction2DRadAbs::calc_A_i_0(const real_type alpha) const
 GF11_INLINE GreensFunction2DRadAbs::real_type
 GreensFunction2DRadAbs::f_alpha0(const real_type alpha) const
 {
+    namespace policies = boost::math::policies;
+    constexpr auto policy = policies::make_policy(policies::promote_double<false>());
     // The method evaluates the equation for finding the alphas for given alpha.
     // This is needed to find the alpha's at which the expression is zero ->
     // alpha is the root.
     const real_type s_An = this->sigma_ * alpha;
     const real_type a_An = this->a_     * alpha;
 
-    const real_type J0_s_An = boost::math::cyl_bessel_j(0, s_An);
-    const real_type J1_s_An = boost::math::cyl_bessel_j(1, s_An);
-    const real_type J0_a_An = boost::math::cyl_bessel_j(0, a_An);
+    const real_type J0_s_An = boost::math::cyl_bessel_j(0, s_An, policy);
+    const real_type J1_s_An = boost::math::cyl_bessel_j(1, s_An, policy);
+    const real_type J0_a_An = boost::math::cyl_bessel_j(0, a_An, policy);
 
-    const real_type Y0_s_An = boost::math::cyl_neumann (0, s_An);
-    const real_type Y1_s_An = boost::math::cyl_neumann (1, s_An);
-    const real_type Y0_a_An = boost::math::cyl_neumann (0, a_An);
+    const real_type Y0_s_An = boost::math::cyl_neumann (0, s_An, policy);
+    const real_type Y1_s_An = boost::math::cyl_neumann (1, s_An, policy);
+    const real_type Y0_a_An = boost::math::cyl_neumann (0, a_An, policy);
 
     const real_type rho1 = (this->h_ * J0_s_An + alpha * J1_s_An) * Y0_a_An;
     const real_type rho2 = (this->h_ * Y0_s_An + alpha * Y1_s_An) * J0_a_An;
@@ -158,18 +165,21 @@ GF11_INLINE GreensFunction2DRadAbs::real_type
 GreensFunction2DRadAbs::f_alpha(
         const real_type alpha, const std::uint32_t n) const
 {
+    namespace policies = boost::math::policies;
+    constexpr auto policy = policies::make_policy(policies::promote_double<false>());
+
     // The roots (y=0) of this function are constants in the Green's Functions.
     const real_type s_An    = sigma_ * alpha;
     const real_type a_An    = a_     * alpha;
     const real_type h_sigma = h_ * sigma_;
 
-    const real_type Jn_s_An  = boost::math::cyl_bessel_j(n,   s_An);
-    const real_type Jn1_s_An = boost::math::cyl_bessel_j(n+1, s_An);
-    const real_type Jn_a_An  = boost::math::cyl_bessel_j(n,   a_An);
+    const real_type Jn_s_An  = boost::math::cyl_bessel_j(n,   s_An, policy);
+    const real_type Jn1_s_An = boost::math::cyl_bessel_j(n+1, s_An, policy);
+    const real_type Jn_a_An  = boost::math::cyl_bessel_j(n,   a_An, policy);
 
-    const real_type Yn_s_An  = boost::math::cyl_neumann (n,   s_An);
-    const real_type Yn1_s_An = boost::math::cyl_neumann (n+1, s_An);
-    const real_type Yn_a_An  = boost::math::cyl_neumann (n,   a_An);
+    const real_type Yn_s_An  = boost::math::cyl_neumann (n,   s_An, policy);
+    const real_type Yn1_s_An = boost::math::cyl_neumann (n+1, s_An, policy);
+    const real_type Yn_a_An  = boost::math::cyl_neumann (n,   a_An, policy);
 
     const real_type rho1 = (h_sigma * Jn_s_An + s_An * Jn1_s_An - n * Jn_s_An) * Yn_a_An;
     const real_type rho2 = (h_sigma * Yn_s_An + s_An * Yn1_s_An - n * Yn_s_An) * Jn_a_An;
@@ -530,6 +540,9 @@ GreensFunction2DRadAbs::create_psurv_table(std::vector<real_type>& table) const
 GF11_INLINE GreensFunction2DRadAbs::real_type
 GreensFunction2DRadAbs::p_survival_i(const real_type alpha) const
 {
+    namespace policies = boost::math::policies;
+    constexpr auto policy = policies::make_policy(policies::promote_double<false>());
+
     // calculates the constant part of the i-th term for the survival probability
     constexpr real_type pi = boost::math::constants::pi<real_type>();
 
@@ -537,10 +550,10 @@ GreensFunction2DRadAbs::p_survival_i(const real_type alpha) const
     const real_type a_An = a_     * alpha;
     const real_type alpha_sq = alpha * alpha;
 
-    const real_type J0_aAn = boost::math::cyl_bessel_j(0, a_An);
-    const real_type J1_sAn = boost::math::cyl_bessel_j(1, s_An);
-    const real_type Y0_aAn = boost::math::cyl_neumann (0, a_An);
-    const real_type Y1_sAn = boost::math::cyl_neumann (1, s_An);
+    const real_type J0_aAn = boost::math::cyl_bessel_j(0, a_An, policy);
+    const real_type J1_sAn = boost::math::cyl_bessel_j(1, s_An, policy);
+    const real_type Y0_aAn = boost::math::cyl_neumann (0, a_An, policy);
+    const real_type Y1_sAn = boost::math::cyl_neumann (1, s_An, policy);
 
     // calculate C0,n
     const real_type C_i_0 = this->calc_A_i_0(alpha);
@@ -602,14 +615,17 @@ GF11_INLINE std::tuple<GreensFunction2DRadAbs::real_type,
                   GreensFunction2DRadAbs::real_type>
 GreensFunction2DRadAbs::Y0J0J1_constants(const real_type alpha, const real_type t) const
 {
+    namespace policies = boost::math::policies;
+    constexpr auto policy = policies::make_policy(policies::promote_double<false>());
+
     const real_type s_An     = sigma_ * alpha;
     const real_type a_An     = a_     * alpha;
     const real_type alpha_sq = alpha  * alpha;
 
-    const real_type J0_aAn = boost::math::cyl_bessel_j(0, a_An);
-    const real_type Y0_aAn = boost::math::cyl_neumann (0, a_An);
-    const real_type J1_sAn = boost::math::cyl_bessel_j(1, s_An);
-    const real_type Y1_sAn = boost::math::cyl_neumann (1, s_An);
+    const real_type J0_aAn = boost::math::cyl_bessel_j(0, a_An, policy);
+    const real_type Y0_aAn = boost::math::cyl_neumann (0, a_An, policy);
+    const real_type J1_sAn = boost::math::cyl_bessel_j(1, s_An, policy);
+    const real_type Y1_sAn = boost::math::cyl_neumann (1, s_An, policy);
 
     // calculate An,0
     const real_type A_i_0 = this->calc_A_i_0(alpha);
@@ -650,11 +666,14 @@ GreensFunction2DRadAbs::p_int_r_i_exp_table(const std::uint32_t i, const real_ty
                                             const std::vector<real_type>& J0_aAn_table,
                                             const std::vector<real_type>& Y0J1J0Y1_table) const
 {
+    namespace policies = boost::math::policies;
+    constexpr auto policy = policies::make_policy(policies::promote_double<false>());
+
     const real_type alpha = this->get_alpha(0, i);
     const real_type r_An  = r * alpha;
 
-    const real_type J1_rAn = boost::math::cyl_bessel_j(1, r_An);
-    const real_type Y1_rAn = boost::math::cyl_neumann (1, r_An);
+    const real_type J1_rAn = boost::math::cyl_bessel_j(1, r_An, policy);
+    const real_type Y1_rAn = boost::math::cyl_neumann (1, r_An, policy);
 
     return Y0_aAn_table[i] * r * J1_rAn - J0_aAn_table[i] * r * Y1_rAn - Y0J1J0Y1_table[i];
 }
@@ -699,6 +718,9 @@ GreensFunction2DRadAbs::p_m_alpha(const std::uint32_t n, // n-th root
                                   const real_type r,
                                   const real_type t) const
 {
+    namespace policies = boost::math::policies;
+    constexpr auto policy = policies::make_policy(policies::promote_double<false>());
+
     // The calculates constant factor m,n for the drawing of theta. These factors are summed later.
 
     // Gets the n-th root using the bessel functions of order m.
@@ -714,17 +736,17 @@ GreensFunction2DRadAbs::p_m_alpha(const std::uint32_t n, // n-th root
     const real_type r_Anm = r      * alpha;
 
     // calculate the needed bessel functions
-    const real_type Jm_sAnm   = boost::math::cyl_bessel_j(m,   s_Anm);
-    const real_type Jmp1_sAnm = boost::math::cyl_bessel_j(m+1, s_Anm);    // prime
+    const real_type Jm_sAnm   = boost::math::cyl_bessel_j(m,   s_Anm, policy);
+    const real_type Jmp1_sAnm = boost::math::cyl_bessel_j(m+1, s_Anm, policy);    // prime
 
-    const real_type Jm_aAnm   = boost::math::cyl_bessel_j(m, a_Anm);
-    const real_type Ym_aAnm   = boost::math::cyl_neumann (m, a_Anm);
+    const real_type Jm_aAnm   = boost::math::cyl_bessel_j(m, a_Anm, policy);
+    const real_type Ym_aAnm   = boost::math::cyl_neumann (m, a_Anm, policy);
 
-    const real_type Jm_r0Anm  = boost::math::cyl_bessel_j(m, r0Anm);
-    const real_type Ym_r0Anm  = boost::math::cyl_neumann (m, r0Anm);
+    const real_type Jm_r0Anm  = boost::math::cyl_bessel_j(m, r0Anm, policy);
+    const real_type Ym_r0Anm  = boost::math::cyl_neumann (m, r0Anm, policy);
 
-    const real_type Jm_rAnm   = boost::math::cyl_bessel_j(m, r_Anm);
-    const real_type Ym_rAnm   = boost::math::cyl_neumann (m, r_Anm);
+    const real_type Jm_rAnm   = boost::math::cyl_bessel_j(m, r_Anm, policy);
+    const real_type Ym_rAnm   = boost::math::cyl_neumann (m, r_Anm, policy);
 
     // calculating An,m
     const real_type h_ma   = h_ - m / sigma_;
@@ -818,6 +840,8 @@ GreensFunction2DRadAbs::dp_m_alpha_at_a(const std::uint32_t n, // n-th root
                                         const std::uint32_t m, // order of bessel
                                         const real_type t) const
 {
+    namespace policies = boost::math::policies;
+    constexpr auto policy = policies::make_policy(policies::promote_double<false>());
     // This method calculates the constants for the drawTheta method when the particle is at the boundary
 
     // get the n-th root using the besselfunctions of order m
@@ -831,12 +855,12 @@ GreensFunction2DRadAbs::dp_m_alpha_at_a(const std::uint32_t n, // n-th root
     const real_type a_Anm = a_     * alpha;
     const real_type r0Anm = r0_    * alpha;
 
-    const real_type Jm_sAnm   = boost::math::cyl_bessel_j(m,   s_Anm);
-    const real_type Jmp1_sAnm = boost::math::cyl_bessel_j(m+1, s_Anm);
-    const real_type Jm_aAnm   = boost::math::cyl_bessel_j(m,   a_Anm);
-    const real_type Ym_aAnm   = boost::math::cyl_neumann (m,   a_Anm);
-    const real_type Jm_r0Anm  = boost::math::cyl_bessel_j(m,   r0Anm);
-    const real_type Ym_r0Anm  = boost::math::cyl_neumann (m,   r0Anm);
+    const real_type Jm_sAnm   = boost::math::cyl_bessel_j(m,   s_Anm, policy);
+    const real_type Jmp1_sAnm = boost::math::cyl_bessel_j(m+1, s_Anm, policy);
+    const real_type Jm_aAnm   = boost::math::cyl_bessel_j(m,   a_Anm, policy);
+    const real_type Ym_aAnm   = boost::math::cyl_neumann (m,   a_Anm, policy);
+    const real_type Jm_r0Anm  = boost::math::cyl_bessel_j(m,   r0Anm, policy);
+    const real_type Ym_r0Anm  = boost::math::cyl_neumann (m,   r0Anm, policy);
 
     // calculating An,m
     const real_type h_ma   = h_ - m / sigma_;
