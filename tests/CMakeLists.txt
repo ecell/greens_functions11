@@ -1,7 +1,8 @@
 set(EXE_NAMES
     GreensFunction2DAbsSym_drawTime
     GreensFunction2DAbsSym_drawR
-    GreensFunction2DRadAbs
+    GreensFunction2DRadAbs_drawTime
+    GreensFunction2DRadAbs_drawR
     GreensFunction3DAbsSym_drawTime
     GreensFunction3DAbsSym_drawR
     GreensFunction3DRadAbs
