@@ -1,12 +1,20 @@
 set(EXE_NAMES
     GreensFunction2DAbsSym_drawTime
     GreensFunction2DAbsSym_drawR
+
     GreensFunction2DRadAbs_drawTime
     GreensFunction2DRadAbs_drawR
+
     GreensFunction3DAbsSym_drawTime
     GreensFunction3DAbsSym_drawR
-    GreensFunction3DRadAbs
-    GreensFunction3DRadInf
+
+    GreensFunction3DRadAbs_drawTime
+    GreensFunction3DRadAbs_drawR
+    GreensFunction3DRadAbs_drawTheta
+
+    GreensFunction3DRadInf_drawTime
+    GreensFunction3DRadInf_drawR
+    GreensFunction3DRadInf_drawTheta
     )
 
 include_directories(${CMAKE_BINARY_DIR})
